@@ -4,6 +4,58 @@
 
 from tournament import *
 
+fifty_random_names = [ "Frederica Paley",
+		"Tonie Vannatter",
+		"Ted Heth",
+		"Franklyn Rene",
+		"Kiara Rossbach",
+		"Pamala Bien",
+		"Leia Rase",
+		"Margarete Oldfield",
+		"Chan Bolender",
+		"Shaina Bostic",
+		"Daniele Franson",
+		"Tanesha Ringo",
+		"Illa Jaworski",
+		"Christiana Straley",
+		"Mitchell Legaspi",
+		"Eufemia Reasor",
+		"Dudley Tovar",
+		"Regena Wernick",
+		"Evette Scharf",
+		"Alix Messerly",
+		"Shamika Leigh",
+		"Annemarie Faivre",
+		"Dale Lackner",
+		"Aura Conwell",
+		"Shantel Fryer",
+		"Mikel Weeks",
+		"Claude Tarter",
+		"Christy Pates",
+		"Inell Moss",
+		"Nathan Miers",
+		"Bruce Vong",
+		"Kerri Chenail",
+		"Lashawn Crosslin",
+		"Madelyn Mucha",
+		"Holli Defazio",
+		"Jacqueline Curlee",
+		"Brande Oberg",
+		"Corene Stermer",
+		"Lianne Mcleod",
+		"Allyson Tolan",
+		"Adolph Petit",
+		"Emilio Hayashi",
+		"Darrick Steckel",
+		"Blossom Devane",
+		"Destiny Brimmer",
+		"Meghann Lecroy",
+		"Long Hennings",
+		"Kimberly Olivar",
+		"Ralph Dice",
+		"Theodore Conant"
+		]
+
 def testDeleteMatches():
     deleteMatches()
     print "1. Old matches can be deleted."
@@ -125,6 +177,60 @@ def testPairings():
     print "8. After one match, players with one win are paired."
 
 
+def comparePairings(matches, pairings):
+    wins = {}
+    losses = {}
+    # initialize the wins and losses dicts
+    for m in matches:
+	wins[m[0]] = 0
+	wins[m[1]] = 0
+	losses[m[0]] = 0
+	losses[m[1]] = 0
+    for m in matches:
+	wins[m[0]] = wins[m[0]] + 1
+	losses[m[1]] = losses[m[1]] + 1
+    print "wins = ", wins
+    print "losses = ", losses
+    # if even number of matches, then all of the pairings should have the
+    # same score
+    if len(matches) % 2 == 0:
+    	for p in pairings:
+	    if wins[p[0]] != wins[p[2]]:
+	   	return False
+    else:
+	wincount = 0
+	for p in pairings:
+	    if wins[p[0]] == wins[p[2]]:
+		wincount = wincount + 1
+    return True
+    
+def testTournament(number_of_players):
+    """ test a complete swiss pairing tournament
+	supports up to 50 players
+    """
+    deleteMatches()
+    deletePlayers()
+    for i in range(0, number_of_players):
+	registerPlayer(fifty_random_names[i])
+    standings = playerStandings()
+    print "standings = ", standings
+    player_ids = [row[0] for row in standings]
+    matches = []
+    for i in range(0, number_of_players, 2):
+	matches.append((player_ids[i], player_ids[i+1]))
+    for m in matches:
+	reportMatch(m[0], m[1])
+    pairings = swissPairings()
+    if len(pairings) != len(matches):
+	raise ValueError(
+	    "For %s players, swissPairing should return %s pairs.",
+	    number_of_players, len(matches))
+    if comparePairings(matches, pairings) == False:
+    	print "matches = ", matches
+	print "pairs = ", pairings
+        raise ValueError(
+            "After one match, players with one win should be paired.")
+
 if __name__ == '__main__':
     testDeleteMatches()
     testDelete()
@@ -134,6 +240,7 @@ if __name__ == '__main__':
     testStandingsBeforeMatches()
     testReportMatches()
     testPairings()
+    testTournament(6)
     print "Success!  All tests pass!"
 
-
+  

@@ -4,57 +4,58 @@
 
 from tournament import *
 
-fifty_random_names = [ "Frederica Paley",
-		"Tonie Vannatter",
-		"Ted Heth",
-		"Franklyn Rene",
-		"Kiara Rossbach",
-		"Pamala Bien",
-		"Leia Rase",
-		"Margarete Oldfield",
-		"Chan Bolender",
-		"Shaina Bostic",
-		"Daniele Franson",
-		"Tanesha Ringo",
-		"Illa Jaworski",
-		"Christiana Straley",
-		"Mitchell Legaspi",
-		"Eufemia Reasor",
-		"Dudley Tovar",
-		"Regena Wernick",
-		"Evette Scharf",
-		"Alix Messerly",
-		"Shamika Leigh",
-		"Annemarie Faivre",
-		"Dale Lackner",
-		"Aura Conwell",
-		"Shantel Fryer",
-		"Mikel Weeks",
-		"Claude Tarter",
-		"Christy Pates",
-		"Inell Moss",
-		"Nathan Miers",
-		"Bruce Vong",
-		"Kerri Chenail",
-		"Lashawn Crosslin",
-		"Madelyn Mucha",
-		"Holli Defazio",
-		"Jacqueline Curlee",
-		"Brande Oberg",
-		"Corene Stermer",
-		"Lianne Mcleod",
-		"Allyson Tolan",
-		"Adolph Petit",
-		"Emilio Hayashi",
-		"Darrick Steckel",
-		"Blossom Devane",
-		"Destiny Brimmer",
-		"Meghann Lecroy",
-		"Long Hennings",
-		"Kimberly Olivar",
-		"Ralph Dice",
-		"Theodore Conant"
-		]
+# a set of names to use for competitors
+fifty_random_names = ["Frederica Paley",
+                      "Tonie Vannatter",
+                      "Ted Heth",
+                      "Franklyn Rene",
+                      "Kiara Rossbach",
+                      "Pamala Bien",
+                      "Leia Rase",
+                      "Margarete Oldfield",
+                      "Chan Bolender",
+                      "Shaina Bostic",
+                      "Daniele Franson",
+                      "Tanesha Ringo",
+                      "Illa Jaworski",
+                      "Christiana Straley",
+                      "Mitchell Legaspi",
+                      "Eufemia Reasor",
+                      "Dudley Tovar",
+                      "Regena Wernick",
+                      "Evette Scharf",
+                      "Alix Messerly",
+                      "Shamika Leigh",
+                      "Annemarie Faivre",
+                      "Dale Lackner",
+                      "Aura Conwell",
+                      "Shantel Fryer",
+                      "Mikel Weeks",
+                      "Claude Tarter",
+                      "Christy Pates",
+                      "Inell Moss",
+                      "Nathan Miers",
+                      "Bruce Vong",
+                      "Kerri Chenail",
+                      "Lashawn Crosslin",
+                      "Madelyn Mucha",
+                      "Holli Defazio",
+                      "Jacqueline Curlee",
+                      "Brande Oberg",
+                      "Corene Stermer",
+                      "Lianne Mcleod",
+                      "Allyson Tolan",
+                      "Adolph Petit",
+                      "Emilio Hayashi",
+                      "Darrick Steckel",
+                      "Blossom Devane",
+                      "Destiny Brimmer",
+                      "Meghann Lecroy",
+                      "Long Hennings",
+                      "Kimberly Olivar",
+                      "Ralph Dice",
+                      "Theodore Conant"]
+
 
 def testDeleteMatches():
     deleteMatches()
@@ -115,8 +116,8 @@ def testStandingsBeforeMatches():
     registerPlayer("Randy Schwartz")
     standings = playerStandings()
     if len(standings) < 2:
-        raise ValueError("Players should appear in playerStandings even before "
-                         "they have played any matches.")
+        raise ValueError("Players should appear in playerStandings even before"
+                         " they have played any matches.")
     elif len(standings) > 2:
         raise ValueError("Only registered players should appear in standings.")
     if len(standings[0]) != 4:
@@ -126,9 +127,9 @@ def testStandingsBeforeMatches():
         raise ValueError(
             "Newly registered players should have no matches or wins.")
     if set([name1, name2]) != set(["Melpomene Murray", "Randy Schwartz"]):
-        raise ValueError("Registered players' names should appear in standings, "
-                         "even if they have no matches played.")
-    print "6. Newly registered players appear in the standings with no matches."
+        raise ValueError("Registered players' names should appear in standings"
+                         ", even if they have no matches played.")
+    print "6. Newly registered players appear in the standings with 0 matches."
 
 
 def testReportMatches():
@@ -149,7 +150,7 @@ def testReportMatches():
         if i in (id1, id3) and w != 1:
             raise ValueError("Each match winner should have one win recorded.")
         elif i in (id2, id4) and w != 0:
-            raise ValueError("Each match loser should have zero wins recorded.")
+            raise ValueError("Each match loser should have 0 wins recorded.")
     print "7. After a match, players have updated standings."
 
 
@@ -178,56 +179,64 @@ def testPairings():
 
 
 def comparePairings(matches, pairings):
+    """ given a set of matches, test the pairings to see if they are consistent
+        
+    Args:
+        matches: a tuple with winner id, loser id
+        pairings: a set of swiss pairing tuples (id1, name1, id2, name2)
+                    id1: the first player's unique id
+                    name1: the first player's name
+                    id2: the second player's unique id
+                    name2: the second player's name
+                    
+    Returns:
+        True if valid set of swiss pairings after the matches
+        False if not a valid set of swiss pairings
+    """
     wins = {}
     losses = {}
     # initialize the wins and losses dicts
     for m in matches:
-	wins[m[0]] = 0
-	wins[m[1]] = 0
-	losses[m[0]] = 0
-	losses[m[1]] = 0
+        wins[m[0]] = 0
+        wins[m[1]] = 0
+        losses[m[0]] = 0
+        losses[m[1]] = 0
     for m in matches:
-	wins[m[0]] = wins[m[0]] + 1
-	losses[m[1]] = losses[m[1]] + 1
+        wins[m[0]] = wins[m[0]] + 1
+        losses[m[1]] = losses[m[1]] + 1
     print "wins = ", wins
     print "losses = ", losses
-    # if even number of matches, then all of the pairings should have the
-    # same score
-    if len(matches) % 2 == 0:
-    	for p in pairings:
-	    if wins[p[0]] != wins[p[2]]:
-	   	return False
-    else:
-	wincount = 0
-	for p in pairings:
-	    if wins[p[0]] == wins[p[2]]:
-		wincount = wincount + 1
+
+    # check to make sure that no competitor
+    # has greater than one win more than his match
+    for p in pairings:
+        if wins[p[0]] - wins[p[2]] > 1:
+            return False
+        if wins[p[2]] - wins[p[0]] > 1:
+            return False
     return True
-    
+
+
 def testTournament(number_of_players):
     """ test a complete swiss pairing tournament
-	supports up to 50 players
+        supports up to 50 players
     """
     deleteMatches()
     deletePlayers()
     for i in range(0, number_of_players):
-	registerPlayer(fifty_random_names[i])
+        registerPlayer(fifty_random_names[i])
     standings = playerStandings()
-    print "standings = ", standings
     player_ids = [row[0] for row in standings]
     matches = []
     for i in range(0, number_of_players, 2):
-	matches.append((player_ids[i], player_ids[i+1]))
+        matches.append((player_ids[i], player_ids[i+1]))
     for m in matches:
-	reportMatch(m[0], m[1])
+        reportMatch(m[0], m[1])
     pairings = swissPairings()
     if len(pairings) != len(matches):
-	raise ValueError(
-	    "For %s players, swissPairing should return %s pairs.",
-	    number_of_players, len(matches))
+        raise ValueError("For %s players, swissPairing should return"
+                         " %s pairs.", number_of_players, len(matches))
     if comparePairings(matches, pairings) == False:
-    	print "matches = ", matches
-	print "pairs = ", pairings
         raise ValueError(
             "After one match, players with one win should be paired.")
 
@@ -240,7 +249,5 @@ if __name__ == '__main__':
     testStandingsBeforeMatches()
     testReportMatches()
     testPairings()
-    testTournament(6)
+    testTournament(10)
     print "Success!  All tests pass!"
-
-  

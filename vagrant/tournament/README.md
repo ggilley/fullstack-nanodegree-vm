@@ -5,7 +5,7 @@
 
 #What's Included
 
-#Within the zip file, you'll find the following files:
+Within the zip file, you'll find the following files:
 
     **README.md** - this file
     **tournament.py** - functions to generate a swiss tournament pairing

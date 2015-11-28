@@ -204,8 +204,6 @@ def comparePairings(matches, pairings):
     for m in matches:
         wins[m[0]] = wins[m[0]] + 1
         losses[m[1]] = losses[m[1]] + 1
-    print "wins = ", wins
-    print "losses = ", losses
 
     # check to make sure that no competitor
     # has greater than one win more than his match

@@ -1,15 +1,23 @@
 -- Table definitions for the tournament project.
 --
 
-create table players
+DROP DATABASE IF EXISTS tournament;
+CREATE DATABASE tournament;
+\c tournament
+
+-- players in a tournament
+CREATE TABLE players
 (
-    name text,
-    id serial primary key
+    name TEXT NOT NULL,
+    id SERIAL PRIMARY KEY
 );
 
-create table matches
+-- the set of matches in a tournament with winners and losers
+CREATE TABLE matches
 (
-    winner integer references players(id),
-    loser integer references players(id)
+    id SERIAL PRIMARY KEY
+    winner INTEGER REFERENCES players(id) ON DELETE CASCADE,
+    loser INTEGER REFERENCES players(id) ON DELETE CASCADE,
+    CHECK (winner <> loser)
 );
 

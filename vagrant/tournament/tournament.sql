@@ -15,7 +15,7 @@ CREATE TABLE players
 -- the set of matches in a tournament with winners and losers
 CREATE TABLE matches
 (
-    id SERIAL PRIMARY KEY
+    id SERIAL PRIMARY KEY,
     winner INTEGER REFERENCES players(id) ON DELETE CASCADE,
     loser INTEGER REFERENCES players(id) ON DELETE CASCADE,
     CHECK (winner <> loser)

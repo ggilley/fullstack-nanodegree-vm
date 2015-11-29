@@ -108,14 +108,10 @@ def swissPairings():
     pairings = []
     standings = playerStandings()
 
-    # create a set of combinations of players
-    combo = combinations(standings, 2)
-    # create a set of pairings making sure that each player only plays once
-    for c in combo:
-        if pairings == [] or (lambda x=[item for item in
-                                pairings if c[0][0] == item[0] or
-                                c[0][0] == item[2] or c[1][0] == item[0] or
-                                c[1][0] == item[2]]: 0 if x else 1)():
-            pairings.append((c[0][0], c[0][1], c[1][0], c[1][1]))
+    # since standings are sorted by wins, we can just walk the pairs
+    # note: this won't work for odd numbers of players
+    for i in range(0, countPlayers(), 2):
+        pairings.append((standings[i][0], standings[i][1],
+                         standings[i+1][0], standings[i+1][1]))
 
     return pairings

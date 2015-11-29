@@ -15,9 +15,17 @@ CREATE TABLE players
 -- the set of matches in a tournament with winners and losers
 CREATE TABLE matches
 (
-    id SERIAL PRIMARY KEY,
     winner INTEGER REFERENCES players(id) ON DELETE CASCADE,
     loser INTEGER REFERENCES players(id) ON DELETE CASCADE,
     CHECK (winner <> loser)
 );
 
+-- create a view for the number of player wins computation
+CREATE VIEW number_of_wins AS SELECT players.id, COUNT(matches.winner) AS wins
+    FROM players LEFT JOIN matches ON players.id = matches.winner
+    GROUP BY players.id;
+
+-- create a view for number of matches each player has played
+CREATE VIEW number_of_matches AS SELECT players.id, COUNT(matches) AS matchcount
+    FROM players LEFT JOIN matches ON players.id = matches.winner OR
+    players.id = matches.loser GROUP BY players.id;

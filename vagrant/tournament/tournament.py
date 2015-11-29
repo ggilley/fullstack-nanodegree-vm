@@ -70,11 +70,7 @@ def playerStandings():
         matches: the number of matches the player has played
     """
     db, cursor = connect()
-    # create a view for the number of player wins computation
-    cursor.execute("create view number_of_wins as select players.id, count(matches.winner) as wins from players left join matches on players.id = matches.winner group by players.id;") # noqa
-    # create a view for number of matches each player has played
-    cursor.execute("create view number_of_matches as select players.id, count(matches) as matchcount from players left join matches on players.id = matches.winner or players.id = matches.loser group by players.id;") # noqa
-    # now join the number of wins and matches and order by the number of wins
+    # join the number of wins and matches and order by the number of wins
     cursor.execute("select players.id, players.name, number_of_wins.wins, number_of_matches.matchcount from players join number_of_wins on players.id = number_of_wins.id join number_of_matches on players.id = number_of_matches.id order by number_of_wins.wins desc;") # noqa
     result = cursor.fetchall()
     db.close()

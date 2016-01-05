@@ -20,13 +20,28 @@ default_categories = ["Soccer",
                       "Skating",
                       "Hockey"]
 
+default_categories = { "Soccer" : ["Shinguards"],
+		       "Basketball" : ["Basketball"],
+		       "Baseball" : ["Bat", "Baseball"],
+		       "Frisbee" : ["Frisbee"],
+		       "Snowboarding" : ["Snowboard"],
+		       "Rock Climbing" : ["Shoes"],
+		       "Foosball" : ["Foosball"],
+		       "Skating" : ["Skates"],
+		       "Hockey" : ["Skates", "Puck", "Stick"]}
+
 # populate the database with categories
 
 def populate_database():
     for cat in default_categories:
         newCategory = Category(name=cat)
         session.add(newCategory)
+        session.commit()
         print "adding category: ", cat
-    session.commit()
+        for item in default_categories[cat]:
+            print "adding item: ", item
+            newItem = Item(name=item, category_id=newCategory.id)
+            session.add(newItem)
+            session.commit()
 
 populate_database()

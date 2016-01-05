@@ -289,10 +289,11 @@ def catalogJSON():
 @app.route('/catalog/')
 def showCatalog():
     categories = session.query(Category).order_by(asc(Category.name))
+    items = session.query(Item).order_by(Item.time)
     if 'username' not in login_session:
-        return render_template('publiccatalog.html', categories=categories)
+        return render_template('publiccatalog.html', categories=categories, items=items)
     else:
-        return render_template('catalog.html', categories=categories)
+        return render_template('catalog.html', categories=categories, items=items)
 
 # Create a new category
 
@@ -318,49 +319,8 @@ def newCategory():
 @app.route('/catalog/<category_name>/')
 def showCategory(category_name):
     category = session.query(Category).filter_by(name=category_name).one()
-    creator = getUserInfo(category.user_id)
     items = session.query(Item).filter_by(category_id=category.id).all()
-    if 'username' not in login_session or creator.id != login_session['user_id']:
-        return render_template('publiccategory.html', items=items, category=category, creator=creator)
-    else:
-        return render_template('category.html', items=items, category=category, creator=creator)
-
-# Edit a category
-
-
-@app.route('/catalog/<category_name>/edit/', methods=['GET', 'POST'])
-def editCategory(category_name):
-    category = session.query(Category).filter_by(name=category_name).one()
-    editedCategory = session.query(Category).filter_by(id=category.id).one()
-    if 'username' not in login_session:
-        return redirect('/login')
-    if editedCategory.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized to edit this category. Please create your own category in order to edit.');}</script><body onload='myFunction()''>"
-    if request.method == 'POST':
-        if request.form['name']:
-            editedCategory.name = request.form['name']
-            flash('Category Successfully Edited %s' % editedCategory.name)
-            return redirect(url_for('showCatalog'))
-    else:
-        return render_template('editCategory.html', category=editedCategory)
-
-# Delete a category
-@app.route('/category/<category_name>/delete/', methods=['GET', 'POST'])
-def deleteCategory(category_name):
-    categoryToDelete = session.query(
-        Category).filter_by(name=category_name).one()
-    if 'username' not in login_session:
-        return redirect('/login')
-    if categoryToDelete.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized to delete this category. Please create your own category in order to delete.');}</script><body onload='myFunction()''>"
-    if request.method == 'POST':
-        session.delete(categoryToDelete)
-        flash('%s Successfully Deleted' % categoryToDelete.name)
-        session.commit()
-        return redirect(url_for('showCatalog'))
-    else:
-        return render_template('deleteCategory.html', category=categoryToDelete)
-
+    return render_template('publiccategory.html', items=items, category=category)
 
 # Create a new item
 @app.route('/catalog/<category_name>/new/', methods=['GET', 'POST'])

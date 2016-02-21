@@ -12,7 +12,9 @@
 	<div class="row banner main">
 		<div class="col-md-1"></div>
 		<div class="col-md-11 padding-none">
-			<h1>Catalog App</h1>
+            <a href = "{{url_for('showCatalog')}}">
+                <h1>Catalog App</h1>
+            </a>
 		</div>
 	</div>
 
@@ -61,7 +63,7 @@
     <div class = "items">
             <a href="{{url_for('newItem')}}">
 				<button class="btn btn-default" id="new-item">
-					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add Item
+					Add Item
 				</button>
 			</a>
     {% if showlatest %}

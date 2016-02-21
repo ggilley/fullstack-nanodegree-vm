@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, asc, func
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, Item, User
 from flask import session as login_session
+from datetime import datetime
 import random
 import string
 from oauth2client.client import flow_from_clientsecrets
@@ -347,8 +348,8 @@ def catalogJSON():
 @app.route('/')
 @app.route('/catalog/')
 def showCatalog():
-    categories = session.query(Category).order_by(asc(Category.name))
-    items = session.query(Item).order_by(Item.time)
+    categories = session.query(Category).order_by(Category.name.asc())
+    items = session.query(Item).order_by(Item.time.desc()).limit(10)
     if 'username' not in login_session:
         return render_template('publiccatalog.html', categories=categories, items=items, showlatest=1)
     else:
@@ -413,7 +414,7 @@ def newItem():
         return redirect('/login')
     if request.method == 'POST':
         category = session.query(Category).filter_by(name=request.form['category']).one()
-        newItem = Item(name=request.form['name'], description=request.form['description'], category_id=category.id, user_id=login_session['user_id'])
+        newItem = Item(name=request.form['name'], description=request.form['description'], category_id=category.id, user_id=login_session['user_id'], time=datetime.now())
         session.add(newItem)
         session.commit()
         flash('New %s Item Successfully Created' % (newItem.name))

@@ -8,12 +8,12 @@ Description: {{item.description}}
 
 <a href="{{url_for('editItem', category_name=category.name, item_name=item.name)}}">
 				<button class="btn btn-default" id="edit-item">
-					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Edit
+					Edit
 				</button>
 </a>
 <a href="{{url_for('deleteItem', category_name=category.name, item_name=item.name)}}">
 				<button class="btn btn-default" id="new-item">
-					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Delete
+					Delete
 				</button>
 </a>
 {% endblock %}

@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from datetime import datetime
 
 from database_setup import Base, Category, Item, User
 
@@ -47,7 +48,7 @@ def populate_database():
         print "adding category: ", cat
         for item in default_categories[cat]:
             print "    adding item: ", item
-            newItem = Item(name=item, user_id=newUser.id, category_id=newCategory.id, description=default_descriptions[item])
+            newItem = Item(name=item, user_id=newUser.id, category_id=newCategory.id, description=default_descriptions[item], time=datetime.now())
             session.add(newItem)
             session.commit()
 

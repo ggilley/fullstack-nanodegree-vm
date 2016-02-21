@@ -32,12 +32,13 @@ session = DBSession()
 @app.route('/login', methods=['GET', 'POST'])
 def showLogin():
     if request.method == 'POST':
-        user = session.query(User).filter_by(name=request.form['name']).one()
-        if not user:
+        try:
+            user = session.query(User).filter_by(name=request.form['name']).one()
+        except:
             response = make_response(
-                json.dumps("No such user"), 401)
+                json.dumps("No user found"), 401)
             response.headers['Content-Type'] = 'application/json'
-            print "no such user: ", request.form['name']
+            print "no user found: ", request.form['name']
             return response
 
         login_session['provider'] = 'local'
@@ -46,19 +47,9 @@ def showLogin():
         login_session['email'] = user.email
         login_session['picture'] = '' # user.picture
 
-        output = ''
-        output += '<h1>Welcome, '
-        output += login_session['username']
-
-        output += '!</h1>'
-        output += '<img src="'
-        output += login_session['picture']
-        output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-
         flash("Now logged in as %s" % login_session['username'])
-        return output
+        return redirect(url_for('showCatalog'))
     else:
-    
         state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
         login_session['state'] = state
@@ -378,6 +369,11 @@ def get_category(item):
 
 app.add_template_global(get_category, name='get_category')
 
+def is_logged_in():
+    return 'username' in login_session
+
+app.add_template_global(is_logged_in, name='is_logged_in')
+
 
 def get_count(q):
     count_q = q.statement.with_only_columns([func.count()]).order_by(None)
@@ -482,7 +478,7 @@ def disconnect():
         del login_session['picture']
         del login_session['user_id']
         del login_session['provider']
-        flash("You have successfully been out.")
+        flash("You have successfully logged out.")
         return redirect(url_for('showCatalog'))
     else:
         flash("You were not logged in")

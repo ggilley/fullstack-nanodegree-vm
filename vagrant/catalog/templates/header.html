@@ -1,11 +1,23 @@
-<div class="row top-menu">
-	<div class="col-md-6">
-		<a href="{{url_for('showCatalog')}}">
-			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>Show All Categories
-		</a>
-	</div>
-	<div class="col-md-6 text-right">
-					<p>Login Link will go Here </p>
-		
-	</div>
+<div class="container">
+<div class="row vertical-align">
+    <div class="col-md-1"></div>
+    <div class="col-md-6 padding-none">
+        <a href = "{{url_for('showCatalog')}}">
+            <div class="appname">Catalog App</div>
+        </a>
+    </div>
+    <div class="col-md-2 text-right">
+        {% if is_logged_in() %}
+        <a href="{{url_for('disconnect')}}">
+            <button class="btn btn-default" id="logout">Logout</button>
+        </a>
+        {% else %}
+        <a href="{{url_for('showLogin')}}">
+            <button class="btn btn-default" id="login">Login</button>
+        </a>
+        {% endif %}
+        
+    </div>
+
+</div>
 </div>

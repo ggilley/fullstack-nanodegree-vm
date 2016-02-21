@@ -1,12 +1,14 @@
 body            { font-family: sans-serif; background-image: url('img3.jpg'); background-color: #333333}
 h1, h2, h3, h4       { color: #FFFFFF; }
 h1, h2          { font-family: 'Georgia', serif; margin: 0; }
-h1              { border-bottom: 2px solid #eee; }
+/* h1              { border-bottom: 2px solid #eee; } */
 h2              { font-size: 1.8em; }
 
 p, dd, dt               { color: #CCCCCC;}
 
 a {text-decoration: none; color:#FFFFCC; font-size: .75em;}
+
+.appname { font-family: 'Georgia', serif; font-size: 4em; margin: 0; float: left }
 
 .pane {position:absolute; left: 25%; border: 2px solid;
     border-radius: 25px; padding: 5px; margin: 5px; border-color: #999999; background-color: #333333 }
@@ -19,3 +21,8 @@ a {text-decoration: none; color:#FFFFCC; font-size: .75em;}
 .editdeletepane{}
 
 .flash          { background: #cee5F5; }
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}

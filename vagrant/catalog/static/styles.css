@@ -2,7 +2,7 @@ body            { font-family: sans-serif; background-image: url('img3.jpg'); ba
 h1, h2, h3, h4       { color: #FFFFFF; }
 h1, h2          { font-family: 'Georgia', serif; margin: 0; }
 h1              { border-bottom: 2px solid #eee; }
-h2              { font-size: 1.2em; }
+h2              { font-size: 1.8em; }
 
 p, dd, dt               { color: #CCCCCC;}
 
@@ -15,7 +15,7 @@ a {text-decoration: none; color:#FFFFCC; font-size: .75em;}
 .description {}
 .price {text-align: right; width:50%; float: right; }
 .categories { width: 250px; float: left; padding: 5px; border-right: 1px solid #444 }
-.items { margin-left: 30px; float: left; width: 350px; padding: 10px; }
+.items { margin-left: 30px; float: left; width: 350px; padding: 5px; }
 .editdeletepane{}
 
 .flash          { background: #cee5F5; }

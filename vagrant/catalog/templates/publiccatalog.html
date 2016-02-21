@@ -12,7 +12,7 @@
 	<div class="row banner main">
 		<div class="col-md-1"></div>
 		<div class="col-md-11 padding-none">
-			<h1>Categories</h1>
+			<h1>Catalog App</h1>
 		</div>
 	</div>
 
@@ -39,12 +39,19 @@
 		<div class="col-md-1"></div>
 	</div>
     <div class = "categories">
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<h3>Categories</h3>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
 	{% for category in categories %}
 		<a href = "{{url_for('showCategory', category_name = category.name)}}">
 			<div class="row">
 				<div class="col-md-1"></div>
-					<div class="col-md-10 restaurant-list">
-						<h3>{{category.name}}</h3>
+					<div class="col-md-10">
+						<h2>{{category.name}}</h2>
 					</div>
 				<div class="col-md-1"></div>
 			</div>
@@ -52,10 +59,33 @@
 	{% endfor %}
     </div>
     <div class = "items">
-        {% for i in items %}
-        <div class="row">
-            <h3>{{i.name}}</h3>
-        </div>
-        {% endfor %}
+        {% if showlatest %}
+		<div class="row">
+			<h3>Latest Items</h3>
+		</div>	
+       	 	{% for i in items %}
+		<a href = "{{url_for('showItem', category_name = get_category(i).name, item_name = i.name)}}">
+	       	 <div class="row">
+			<div class="col-md-10">
+		            <h2>{{i.name}}</h2>
+			</div>
+       		 </div>
+		</a>
+       		 {% endfor %}
+	{% else %}
+		<div class="row">
+			<h3>{{category.name}} Items ({{itemcount}} items)</h3>
+		</div>	
+       	 	{% for i in items %}
+			<a href = "{{url_for('showItem', category_name = category.name, item_name = i.name)}}">
+		       	 <div class="row">
+				<div class="col-md-10">
+			            <h2>{{i.name}}</h2>
+				</div>
+       			 </div>
+			</a>
+       		{% endfor %}
+	{% endif %}
+
     </div>
 {% endblock %}

@@ -16,10 +16,17 @@ class User(Base):
     password = Column(String(250))
     picture = Column(String(250))
 
+    def __repr__(self):
+        return "<User '{}'>".format(self.name)
+
+
 class Category(Base):
     __tablename__ = 'category'
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+
+    def __repr__(self):
+        return "<Category '{}'>".format(self.name)
 
     @property
     def serialize(self):
@@ -39,6 +46,9 @@ class Item(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
     time = Column(TIMESTAMP)
+
+    def __repr__(self):
+        return "<Item '{}'>".format(self.name)
 
     @property
     def serialize(self):

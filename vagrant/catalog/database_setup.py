@@ -36,6 +36,7 @@ class Category(Base):
             'id': self.id,
         }
 
+
 class Item(Base):
     __tablename__ = 'item'
     name = Column(String(80), nullable=False)
